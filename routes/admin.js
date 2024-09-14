@@ -6,11 +6,11 @@ module.exports = app => {
 
     var router = require("express").Router();
 
-    router.get("/", admin.findAll);
-    router.put("/:id", upload.single('avatar'), admin.update);
-    router.post("/", upload.single('avatar'), admin.create);
+    router.get("/", authenticateToken, admin.findAll);
+    router.put("/:id", authenticateToken, upload.single('avatar'), log, admin.update);
+    router.post("/", authenticateToken, upload.single('avatar'), log, admin.create);
     router.post("/login", admin.login);
-    router.delete("/:id", admin.delete);
+    router.delete("/:id", authenticateToken, log, admin.delete);
 
 
     app.use('/api/admins', router);
